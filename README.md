@@ -96,6 +96,48 @@ faang = Ticker(symbols)
 faang.summary_detail
 ```
 
+## TradingView Screener API Endpoints
+
+The backend now provides a comprehensive REST API for TradingView Screener data. These endpoints allow you to query, explore, and format data for use in your frontend widgets or applications.
+
+### Endpoints
+
+- **GET `/api/screener/columns`**  
+  Returns a list of all available columns/fields for screener queries.
+
+- **GET `/api/screener/models`**  
+  Returns a list of available models for advanced queries.
+
+- **POST `/api/screener/query`**  
+  Run advanced screener queries with custom selection, filtering, sorting, limits, and offsets.  
+  **Example request body:**
+  ```json
+  {
+    "select": ["name", "close", "volume"],
+    "where": [
+      {"column": "volume", "op": ">", "value": 1000000}
+    ],
+    "order_by": {"column": "volume", "ascending": false},
+    "limit": 10
+  }
+  ```
+
+- **GET `/api/screener/technical_rating?rating=0.7`**  
+  Converts a numeric technical rating into a human-readable string (e.g., "Strong Buy").
+
+- **GET `/api/screener/predefined?screen_ids=most_actives,day_gainers&count=25`**  
+  Returns results from predefined TradingView screeners.  
+  Example `screen_ids`: `most_actives`, `day_gainers`, etc.
+
+### Usage
+- All endpoints return JSON.
+- Use `/api/screener/columns` to dynamically build field selectors in your frontend.
+- Use `/api/screener/query` for custom, advanced queries.
+- Use `/api/screener/predefined` for common market screens.
+
+### API Documentation
+- Visit `http://localhost:8000/docs` while the backend is running for interactive API docs and testing.
+
 ## License
 
 This project is licensed under the terms of the MIT license.
